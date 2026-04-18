@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TetraPulse SP</title>
+  <meta name="color-scheme" content="dark light">
+  <script src="./coi-serviceworker.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --panel: #171a22;
+      --text: #f5f7fb;
+      --muted: #b8c0d0;
+      --line: #2a3244;
+      --accent: #66d9ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, #1a2130 0%, var(--bg) 55%);
+      color: var(--text);
+      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .wrap {
+      width: min(100%, 900px);
+      padding: 24px;
+    }
+    .panel {
+      background: rgba(23, 26, 34, 0.88);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #11141b;
+      border: 1px solid var(--line);
+    }
+    ul { margin: 12px 0 0; color: var(--muted); }
+    li + li { margin-top: 8px; }
+    .ok { color: #8ef0a7; }
+    .warn { color: #ffd479; }
+    .error { color: #ff8f8f; }
+    .btn {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #001018;
+      background: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    iframe {
+      width: 100%;
+      height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #000;
+      margin-top: 18px;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <h1>TetraPulse SP</h1>
+      <p>GitHub Pages で love.js を動かすため、<code>coi-serviceworker.js</code> を先に読み込んで cross-origin isolation を補っとるで。</p>
+      <p id="status">起動チェック中…</p>
+      <ul>
+        <li><span class="ok">OK</span>: <code>game.html</code> が同じ階層にある</li>
+        <li><span class="ok">OK</span>: <code>coi-serviceworker.js</code> が同じ階層にある</li>
+        <li><span class="warn">注意</span>: 初回アクセス時は service worker 登録のため再読み込みが走ることがある</li>
+      </ul>
+      <a class="btn" href="./game.html">別タブで開く</a>
+      <iframe src="./game.html" title="TetraPulse SP game frame" loading="eager"></iframe>
+    </section>
+  </main>
+  <script>
+    const status = document.getElementById('status');
+    const isolated = window.crossOriginIsolated;
+    if (isolated) {
+      status.innerHTML = '<span class="ok">crossOriginIsolated = true</span>。そのままゲーム起動を試すで。';
+    } else {
+      status.innerHTML = '<span class="warn">crossOriginIsolated = false</span>。初回は service worker 登録後にリロードされることがあるで。';
+    }
+  </script>
+</body>
+</html>
